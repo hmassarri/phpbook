@@ -21,36 +21,52 @@
 </head>
 
 <body>
-<div id="container">
 
+<div id="container">
+	<span style="float: right;"><?php echo date('l, F j, Y'); ?></span>
 	<div id="header">
 		<a href="index.html">
 			<img src="images/banner.jpg"  alt="Smithside Auctions" />
-		</a> 
+		</a>
 	</div><!-- end header -->
-	
+
 	<div id="navigation">
 		<h3 class="element-invisible">Menu</h3>
 		<ul class="mainnav">
-        	<li><a href="categories.html">Lot Categories</a></li>
-        	<li><a href="index.php">About Us</a></li>
-        	<li><a href="index.php">Home</a></li>
+        	<li><a href="index.php?content=categories">Lot Categories</a></li>
+        	<li><a href="index.php?content=about">About Us</a></li>
+        	<li><a href="index.php?content=home">Home</a></li>
 		</ul>
 		<div class="clearfloat"></div>
 	</div><!-- end navigation -->
 
 	<div class="message">
-	</div><!-- end message -->	
-	
+	</div><!-- end message -->
+
 	<div class="sidebar">
 	</div><!-- end sidebar -->
-	
+
 	<div class="content">
-		<?php include 'content/gents.php'; ?>
+		<?php
+
+			$content = '';
+
+			//Get the content from the url (where content=something)
+			if (isset($_GET['content'])) : $content = $_GET['content'];
+
+			//Sanitize it for security reasons
+			$content = filter_var($content, FILTER_SANITIZE_STRING);
+			endif;
+
+			//Set up the homepage to default if there is no _GET parameter
+			$content = (empty($content)) ? "home" : $content;
+
+			include 'content/' . $content . '.php';
+		?>
 	</div><!-- end content -->
-	
+
 	<div class="clearfloat"></div>
-	
+
 	<div id="footer">
 		<p>&copy; 2011 Smithside Auctions</p>
 	</div><!-- end footer -->
